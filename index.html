@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Dados de Mercadoria</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <h1 class="title">
+                <i class="fas fa-truck"></i> Dados de Mercadoria para Transporte
+            </h1>
+            
+            <form id="merchandiseForm" class="form-container">
+                <!-- Seção de Informações Básicas -->
+                <fieldset>
+                    <legend><i class="fas fa-info-circle"></i> Informações Básicas</legend>
+                    
+                    <div class="form-group">
+                        <label for="requester">Solicitante:</label>
+                        <input type="text" id="requester" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="freightType">Tipo de Frete:</label>
+                        <select id="freightType" required>
+                            <option value="">Selecione...</option>
+                            <option value="CIF">CIF</option>
+                            <option value="FOB">FOB</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="description">Descrição da mercadoria:</label>
+                        <select id="description" required>
+                            <option value="">Selecione...</option>
+                            <option value="Alimentos (não perecíveis)">Alimentos (não perecíveis)</option>
+                            <option value="Bebidas">Bebidas</option>
+                            <option value="Eletrônicos">Eletrônicos</option>
+                            <option value="Roupas">Roupas</option>
+                            <option value="Móveis">Móveis</option>
+                            <option value="Outros">Outros</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="quantity">Quantidade de volumes:</label>
+                        <input type="number" id="quantity" min="1" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="weight">Peso bruto total (kg):</label>
+                        <input type="number" id="weight" step="0.01" min="0" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="dimensions">Dimensões dos volumes:</label>
+                        <select id="dimensions" required>
+                            <option value="">Selecione...</option>
+                            <option value="Caixa P: 25x23x30">Caixa P: 25x23x30</option>
+                            <option value="Caixa M: 26x25x50">Caixa M: 26x25x50</option>
+                            <option value="Outras dimensões">Outras dimensões</option>
+                        </select>
+                        <input type="text" id="customDimensions" placeholder="Digite outras dimensões" style="display: none;">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="value">Valor da mercadoria:</label>
+                        <div class="input-group">
+                            <span class="input-group-text">R$</span>
+                            <input type="text" id="value" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="cargoType">Tipo de carga:</label>
+                        <select id="cargoType" required>
+                            <option value="">Selecione...</option>
+                            <option value="Carga seca">Carga seca</option>
+                            <option value="Perigosa">Perigosa</option>
+                            <option value="Refrigerada">Refrigerada</option>
+                            <option value="Frágil">Frágil</option>
+                            <option value="Granel">Granel</option>
+                            <option value="Neo-Granel">Neo-Granel</option>
+                            <option value="Perecivel">Perecivel</option>
+                            <option value="Batida">Batida</option>
+                            <option value="Paletizada">Paletizada</option>
+                        </select>
+                        <input type="number" id="palletQuantity" placeholder="Qtd. paletes" min="1" style="display: none;">
+                    </div>
+                </fieldset>
+                
+                <!-- Seção do Remetente -->
+                <fieldset>
+                    <legend><i class="fas fa-user-shield"></i> Remetente</legend>
+                    
+                    <div class="form-group">
+                        <label for="senderName">Razão Social (opcional):</label>
+                        <select id="senderName">
+                            <option value="">Selecione...</option>
+                            <option value="Casa Fortunato Distribuidora Ltda">Casa Fortunato Distribuidora Ltda</option>
+                            <option value="Florio Produtos Alimentícios Ltda">Florio Produtos Alimentícios Ltda</option>
+                            <option value="Outro">Outro</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="senderDocType">Tipo documento:</label>
+                        <select id="senderDocType" required>
+                            <option value="">Selecione...</option>
+                            <option value="CNPJ">CNPJ</option>
+                            <option value="CPF">CPF</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="senderDoc">Documento:</label>
+                        <input type="text" id="senderDoc" placeholder="00.000.000/0000-00" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="pickupAddress">Endereço de coleta:</label>
+                        <select id="pickupAddress" required>
+                            <option value="">Selecione...</option>
+                            <option value="Rua Alberto Correia Franckfort, 113 - Jardim Vista Alegre - Embú das Artes - SP">
+                                Rua Alberto Correia Franckfort, 113 - Jardim Vista Alegre - Embú das Artes - SP
+                            </option>
+                            <option value="Rua Francisco Júlio de Castro, 168 - Vila Cercado Grande - Embú das Artes - SP">
+                                Rua Francisco Júlio de Castro, 168 - Vila Cercado Grande - Embú das Artes - SP
+                            </option>
+                            <option value="Outro endereço">Outro endereço</option>
+                        </select>
+                        <textarea id="customPickupAddress" placeholder="Digite outro endereço" style="display: none;"></textarea>
+                    </div>
+                </fieldset>
+                
+                <!-- Seção do Destinatário -->
+                <fieldset>
+                    <legend><i class="fas fa-user-tag"></i> Destinatário</legend>
+                    
+                    <div class="form-group">
+                        <label for="receiverName">Razão Social (opcional):</label>
+                        <input type="text" id="receiverName">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="receiverDocType">Tipo documento:</label>
+                        <select id="receiverDocType" required>
+                            <option value="">Selecione...</option>
+                            <option value="CNPJ">CNPJ</option>
+                            <option value="CPF">CPF</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="receiverDoc">Documento:</label>
+                        <input type="text" id="receiverDoc" placeholder="00.000.000/0000-00" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="deliveryAddress">Endereço de entrega:</label>
+                        <textarea id="deliveryAddress" required></textarea>
+                    </div>
+                </fieldset>
+                
+                <!-- Observações -->
+                <div class="form-group">
+                    <label for="observations">Observações (opcional):</label>
+                    <textarea id="observations"></textarea>
+                </div>
+                
+                <!-- Botões de Ação -->
+                <div class="action-buttons">
+                    <button type="button" id="fillTestData" class="btn btn-secondary">
+                        <i class="fas fa-flask"></i> Preencher para Teste
+                    </button>
+                    <button type="button" id="generatePdf" class="btn btn-primary">
+                        <i class="fas fa-file-pdf"></i> Cotação em PDF
+                    </button>
+                    <button type="button" id="generateExcel" class="btn btn-success">
+                        <i class="fas fa-file-excel"></i> Cotação em Planilha
+                    </button>
+                    <button type="button" id="generateText" class="btn btn-info">
+                        <i class="fas fa-file-alt"></i> Cotação em Texto
+                    </button>
+                    <button type="button" id="generateWhatsapp" class="btn btn-whatsapp">
+                        <i class="fab fa-whatsapp"></i> Cotação em WhatsApp
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
+    <script src="https://cdn.sheetjs.com/xlsx-0.20.0/package/dist/xlsx.full.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
