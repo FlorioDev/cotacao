@@ -2,201 +2,623 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sistema de Dados de Mercadoria</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Proposta Transporte | Sistema Profissional de Cotação</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #e9f0ff 0%, #f1f5f9 100%);
+            padding: 32px 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            background: #ffffff;
+            border-radius: 28px;
+            box-shadow: 0 20px 35px -12px rgba(0, 0, 0, 0.15);
+            overflow: hidden;
+            transition: all 0.2s;
+        }
+
+        /* header aprimorado */
+        .header {
+            background: linear-gradient(98deg, #0f2b3d 0%, #1b4a6e 100%);
+            padding: 24px 32px;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .header h1 {
+            font-size: 1.65rem;
+            font-weight: 600;
+            letter-spacing: -0.3px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .header h1:before {
+            content: "🚛";
+            font-size: 28px;
+        }
+
+        .badge-version {
+            background: rgba(255,255,255,0.2);
+            padding: 6px 12px;
+            border-radius: 60px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        .form-container {
+            padding: 28px 32px 20px 32px;
+        }
+
+        /* grid moderno */
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px 28px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .form-group.full-width {
+            grid-column: span 2;
+        }
+
+        .form-group label {
+            font-weight: 600;
+            font-size: 0.85rem;
+            color: #1e293b;
+            letter-spacing: 0.3px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .form-group label i {
+            color: #2c6e9e;
+            font-weight: normal;
+        }
+
+        .required-star {
+            color: #dc2626;
+            font-size: 1rem;
+            margin-left: 2px;
+        }
+
+        .form-control, select.form-control, textarea.form-control {
+            width: 100%;
+            padding: 12px 14px;
+            border: 1.5px solid #e2e8f0;
+            border-radius: 14px;
+            font-size: 0.95rem;
+            transition: all 0.2s;
+            background-color: #fefefe;
+            outline: none;
+        }
+
+        .form-control:focus, select.form-control:focus, textarea.form-control:focus {
+            border-color: #2c6e9e;
+            box-shadow: 0 0 0 4px rgba(44,110,158,0.15);
+        }
+
+        .currency-input {
+            display: flex;
+            align-items: stretch;
+        }
+
+        .currency-input span {
+            background: #f1f5f9;
+            border: 1.5px solid #e2e8f0;
+            border-right: none;
+            padding: 0 14px;
+            display: flex;
+            align-items: center;
+            font-weight: 600;
+            border-radius: 14px 0 0 14px;
+            color: #1e293b;
+        }
+
+        .currency-input input {
+            border-radius: 0 14px 14px 0;
+            flex: 1;
+        }
+
+        .cep-row {
+            display: flex;
+            gap: 12px;
+            align-items: flex-end;
+        }
+
+        .cep-row .form-control {
+            flex: 1;
+        }
+
+        .btn-cep {
+            background: #e9ecef;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            color: #1e4620;
+            font-size: 0.85rem;
+        }
+
+        .btn-cep:hover {
+            background: #d4d9e1;
+            transform: scale(0.98);
+        }
+
+        .address-action {
+            margin-top: 6px;
+            font-size: 0.7rem;
+            color: #4b5563;
+        }
+
+        .buttons-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 14px;
+            padding: 24px 32px 32px;
+            background: #fafcff;
+            border-top: 1px solid #eef2f8;
+            justify-content: center;
+        }
+
+        .btn {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 40px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            transition: 0.2s;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+        }
+
+        .btn-test { background: #6c757d; color: white; }
+        .btn-test:hover { background: #5a6268; transform: translateY(-2px);}
+        .btn-pdf { background: #2c3e66; color: white;}
+        .btn-pdf:hover { background: #1f2c4b; transform: translateY(-2px);}
+        .btn-excel { background: #1f6e43; color: white;}
+        .btn-excel:hover { background: #145c38; transform: translateY(-2px);}
+        .btn-text { background: #2c6e9e; color: white;}
+        .btn-text:hover { background: #1f557d; transform: translateY(-2px);}
+        .btn-whatsapp { background: #25D366; color: white;}
+        .btn-whatsapp:hover { background: #1da959; transform: translateY(-2px);}
+
+        .hidden { display: none !important; }
+
+        @media (max-width: 800px) {
+            .form-grid { grid-template-columns: 1fr; }
+            .form-group.full-width { grid-column: span 1; }
+            .header h1 { font-size: 1.3rem; }
+            .buttons-container .btn { flex: 1; justify-content: center; }
+        }
+
+        hr {
+            margin: 18px 0 10px;
+            border: 0;
+            height: 1px;
+            background: linear-gradient(to right, #e2e8f0, transparent);
+        }
+
+        .info-tooltip {
+            font-size: 0.7rem;
+            color: #5a6e8a;
+        }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 </head>
 <body>
-    <div class="container">
-        <div class="card">
-            <h1 class="title">
-                <i class="fas fa-truck"></i> Dados de Mercadoria para Transporte
-            </h1>
-            
-            <form id="merchandiseForm" class="form-container">
-                <!-- Seção de Informações Básicas -->
-                <fieldset>
-                    <legend><i class="fas fa-info-circle"></i> Informações Básicas</legend>
-                    
-                    <div class="form-group">
-                        <label for="requester">Solicitante:</label>
-                        <input type="text" id="requester" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="freightType">Tipo de Frete:</label>
-                        <select id="freightType" required>
-                            <option value="">Selecione...</option>
-                            <option value="CIF">CIF</option>
-                            <option value="FOB">FOB</option>
-                        </select>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="description">Descrição da mercadoria:</label>
-                        <select id="description" required>
-                            <option value="">Selecione...</option>
-                            <option value="Alimentos (não perecíveis)">Alimentos (não perecíveis)</option>
-                            <option value="Bebidas">Bebidas</option>
-                            <option value="Eletrônicos">Eletrônicos</option>
-                            <option value="Roupas">Roupas</option>
-                            <option value="Móveis">Móveis</option>
-                            <option value="Outros">Outros</option>
-                        </select>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="quantity">Quantidade de volumes:</label>
-                        <input type="number" id="quantity" min="1" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="weight">Peso bruto total (kg):</label>
-                        <input type="number" id="weight" step="0.01" min="0" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="dimensions">Dimensões dos volumes:</label>
-                        <select id="dimensions" required>
-                            <option value="">Selecione...</option>
-                            <option value="Caixa P: 25x23x30">Caixa P: 25x23x30</option>
-                            <option value="Caixa M: 26x25x50">Caixa M: 26x25x50</option>
-                            <option value="Outras dimensões">Outras dimensões</option>
-                        </select>
-                        <input type="text" id="customDimensions" placeholder="Digite outras dimensões" style="display: none;">
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="value">Valor da mercadoria:</label>
-                        <div class="input-group">
-                            <span class="input-group-text">R$</span>
-                            <input type="text" id="value" required>
-                        </div>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="cargoType">Tipo de carga:</label>
-                        <select id="cargoType" required>
-                            <option value="">Selecione...</option>
-                            <option value="Carga seca">Carga seca</option>
-                            <option value="Perigosa">Perigosa</option>
-                            <option value="Refrigerada">Refrigerada</option>
-                            <option value="Frágil">Frágil</option>
-                            <option value="Granel">Granel</option>
-                            <option value="Neo-Granel">Neo-Granel</option>
-                            <option value="Perecivel">Perecivel</option>
-                            <option value="Batida">Batida</option>
-                            <option value="Paletizada">Paletizada</option>
-                        </select>
-                        <input type="number" id="palletQuantity" placeholder="Qtd. paletes" min="1" style="display: none;">
-                    </div>
-                </fieldset>
-                
-                <!-- Seção do Remetente -->
-                <fieldset>
-                    <legend><i class="fas fa-user-shield"></i> Remetente</legend>
-                    
-                    <div class="form-group">
-                        <label for="senderName">Razão Social (opcional):</label>
-                        <select id="senderName">
-                            <option value="">Selecione...</option>
-                            <option value="Casa Fortunato Distribuidora Ltda">Casa Fortunato Distribuidora Ltda</option>
-                            <option value="Florio Produtos Alimentícios Ltda">Florio Produtos Alimentícios Ltda</option>
-                            <option value="Outro">Outro</option>
-                        </select>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="senderDocType">Tipo documento:</label>
-                        <select id="senderDocType" required>
-                            <option value="">Selecione...</option>
-                            <option value="CNPJ">CNPJ</option>
-                            <option value="CPF">CPF</option>
-                        </select>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="senderDoc">Documento:</label>
-                        <input type="text" id="senderDoc" placeholder="00.000.000/0000-00" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="pickupAddress">Endereço de coleta:</label>
-                        <select id="pickupAddress" required>
-                            <option value="">Selecione...</option>
-                            <option value="Rua Alberto Correia Franckfort, 113 - Jardim Vista Alegre - Embú das Artes - SP">
-                                Rua Alberto Correia Franckfort, 113 - Jardim Vista Alegre - Embú das Artes - SP
-                            </option>
-                            <option value="Rua Francisco Júlio de Castro, 168 - Vila Cercado Grande - Embú das Artes - SP">
-                                Rua Francisco Júlio de Castro, 168 - Vila Cercado Grande - Embú das Artes - SP
-                            </option>
-                            <option value="Outro endereço">Outro endereço</option>
-                        </select>
-                        <textarea id="customPickupAddress" placeholder="Digite outro endereço" style="display: none;"></textarea>
-                    </div>
-                </fieldset>
-                
-                <!-- Seção do Destinatário -->
-                <fieldset>
-                    <legend><i class="fas fa-user-tag"></i> Destinatário</legend>
-                    
-                    <div class="form-group">
-                        <label for="receiverName">Razão Social (opcional):</label>
-                        <input type="text" id="receiverName">
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="receiverDocType">Tipo documento:</label>
-                        <select id="receiverDocType" required>
-                            <option value="">Selecione...</option>
-                            <option value="CNPJ">CNPJ</option>
-                            <option value="CPF">CPF</option>
-                        </select>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="receiverDoc">Documento:</label>
-                        <input type="text" id="receiverDoc" placeholder="00.000.000/0000-00" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="deliveryAddress">Endereço de entrega:</label>
-                        <textarea id="deliveryAddress" required></textarea>
-                    </div>
-                </fieldset>
-                
-                <!-- Observações -->
-                <div class="form-group">
-                    <label for="observations">Observações (opcional):</label>
-                    <textarea id="observations"></textarea>
-                </div>
-                
-                <!-- Botões de Ação -->
-                <div class="action-buttons">
-                    <button type="button" id="fillTestData" class="btn btn-secondary">
-                        <i class="fas fa-flask"></i> Preencher para Teste
-                    </button>
-                    <button type="button" id="generatePdf" class="btn btn-primary">
-                        <i class="fas fa-file-pdf"></i> Cotação em PDF
-                    </button>
-                    <button type="button" id="generateExcel" class="btn btn-success">
-                        <i class="fas fa-file-excel"></i> Cotação em Planilha
-                    </button>
-                    <button type="button" id="generateText" class="btn btn-info">
-                        <i class="fas fa-file-alt"></i> Cotação em Texto
-                    </button>
-                    <button type="button" id="generateWhatsapp" class="btn btn-whatsapp">
-                        <i class="fab fa-whatsapp"></i> Cotação em WhatsApp
-                    </button>
-                </div>
-            </form>
-        </div>
+<div class="container">
+    <div class="header">
+        <h1>Proposta de Transporte • Cotação Inteligente</h1>
+        <div class="badge-version">🔒 Dados logísticos profissionais</div>
     </div>
+    <div class="form-container">
+        <form id="mainForm">
+            <div class="form-grid">
+                <!-- Solicitante -->
+                <div class="form-group">
+                    <label>Solicitante <span class="required-star">*</span></label>
+                    <input type="text" id="requester" class="form-control" placeholder="Nome completo / setor">
+                </div>
+                <!-- Tipo Frete -->
+                <div class="form-group">
+                    <label>Tipo de Frete <span class="required-star">*</span></label>
+                    <select id="freightType" class="form-control">
+                        <option value="">Selecione</option>
+                        <option value="CIF">CIF</option>
+                        <option value="FOB">FOB</option>
+                    </select>
+                </div>
+                <!-- Descrição mercadoria -->
+                <div class="form-group">
+                    <label>Descrição da mercadoria <span class="required-star">*</span></label>
+                    <select id="description" class="form-control">
+                        <option value="">Selecione</option>
+                        <option value="Alimentos (não perecíveis)">Alimentos (não perecíveis)</option>
+                        <option value="Bebidas">Bebidas</option>
+                        <option value="Eletrônicos">Eletrônicos</option>
+                        <option value="Roupas">Roupas</option>
+                        <option value="Móveis">Móveis</option>
+                        <option value="Outros">Outros</option>
+                    </select>
+                </div>
+                <!-- Quantidade -->
+                <div class="form-group">
+                    <label>Quantidade de volumes <span class="required-star">*</span></label>
+                    <input type="number" id="quantity" class="form-control" min="1" step="1">
+                </div>
+                <!-- Peso -->
+                <div class="form-group">
+                    <label>Peso bruto total (kg) <span class="required-star">*</span></label>
+                    <input type="number" id="weight" class="form-control" step="0.01" min="0">
+                </div>
+                <!-- Dimensões -->
+                <div class="form-group">
+                    <label>Dimensões dos volumes <span class="required-star">*</span></label>
+                    <select id="dimensions" class="form-control">
+                        <option value="">Selecione...</option>
+                        <option value="Caixa P: 25x23x30">Caixa P: 25x23x30</option>
+                        <option value="Caixa M: 26x25x50">Caixa M: 26x25x50</option>
+                        <option value="Outras dimensões">Outras dimensões</option>
+                    </select>
+                    <input type="text" id="custom_dimensions" class="form-control hidden" placeholder="Ex: 40x30x20 cm">
+                </div>
+                <!-- Valor mercadoria -->
+                <div class="form-group">
+                    <label>Valor da mercadoria <span class="required-star">*</span></label>
+                    <div class="currency-input">
+                        <span>R$</span>
+                        <input type="text" id="value" class="form-control" placeholder="0,00">
+                    </div>
+                </div>
+                <!-- Tipo de carga -->
+                <div class="form-group">
+                    <label>Tipo de carga <span class="required-star">*</span></label>
+                    <select id="cargoType" class="form-control">
+                        <option value="">Selecione...</option>
+                        <option value="Carga seca">Carga seca</option>
+                        <option value="Perigosa">Perigosa</option>
+                        <option value="Refrigerada">Refrigerada</option>
+                        <option value="Frágil">Frágil</option>
+                        <option value="Granel">Granel</option>
+                        <option value="Neo-Granel">Neo-Granel</option>
+                        <option value="Perecivel">Perecivel</option>
+                        <option value="Batida">Batida</option>
+                        <option value="Paletizada">Paletizada</option>
+                    </select>
+                    <input type="number" id="pallet_quantity" class="form-control hidden" placeholder="Quantidade de paletes" min="1">
+                </div>
+                <!-- RAZÃO SOCIAL REMETENTE (obrigatório) -->
+                <div class="form-group">
+                    <label>Razão Social Remetente <span class="required-star">*</span></label>
+                    <select id="senderName" class="form-control" required>
+                        <option value="">Selecione o remetente</option>
+                        <option value="Florio Alimentos" data-cnpj="67.505.479/0001-99">Florio Alimentos - CNPJ: 67.505.479/0001-99</option>
+                        <option value="Casa Fortunato" data-cnpj="67.564.740/0001-21">Casa Fortunato - CNPJ: 67.564.740/0001-21</option>
+                        <option value="Outro">Outro (informar manualmente)</option>
+                    </select>
+                    <input type="text" id="custom_senderName" class="form-control hidden" placeholder="Digite a razão social">
+                </div>
+                <!-- CNPJ/CPF Remetente (auto preenchido via razão) -->
+                <div class="form-group">
+                    <label>Tipo documento remetente <span class="required-star">*</span></label>
+                    <select id="senderDocType" class="form-control">
+                        <option value="CNPJ">CNPJ</option>
+                        <option value="CPF">CPF</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Documento remetente <span class="required-star">*</span></label>
+                    <input type="text" id="senderDoc" class="form-control" placeholder="00.000.000/0000-00">
+                </div>
+                <!-- Endereço coleta com CEP -->
+                <div class="form-group full-width">
+                    <label>Endereço de coleta <span class="required-star">*</span> (CEP automático)</label>
+                    <div class="cep-row">
+                        <input type="text" id="pickupCep" class="form-control" placeholder="CEP: 00000-000" style="max-width: 160px;">
+                        <button type="button" id="searchCepBtn" class="btn-cep">🔍 Buscar endereço</button>
+                    </div>
+                    <textarea id="pickupAddress" class="form-control" rows="2" placeholder="Endereço completo (rua, número, bairro, cidade, estado)"></textarea>
+                    <div class="address-action">* Preencha o CEP e clique em buscar. O endereço será preenchido e poderá ser editado.</div>
+                </div>
+                <!-- Destinatário: OBRIGATÓRIO (Razão Social) -->
+                <div class="form-group">
+                    <label>Razão Social Destinatário <span class="required-star">*</span></label>
+                    <input type="text" id="receiverName" class="form-control" placeholder="Nome da empresa / destinatário">
+                </div>
+                <div class="form-group">
+                    <label>Tipo documento destinatário <span class="required-star">*</span></label>
+                    <select id="receiverDocType" class="form-control">
+                        <option value="CNPJ">CNPJ</option>
+                        <option value="CPF">CPF</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Documento destinatário <span class="required-star">*</span></label>
+                    <input type="text" id="receiverDoc" class="form-control" placeholder="00.000.000/0000-00">
+                </div>
+                <!-- Endereço de entrega obrigatório -->
+                <div class="form-group full-width">
+                    <label>Endereço de entrega <span class="required-star">*</span></label>
+                    <textarea id="deliveryAddress" class="form-control" rows="2" placeholder="Rua, número, complemento, bairro, cidade - UF"></textarea>
+                </div>
+                <!-- observações -->
+                <div class="form-group full-width">
+                    <label>Observações (opcional)</label>
+                    <textarea id="observations" class="form-control" rows="2" placeholder="Informações adicionais, cuidados, contato..."></textarea>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="buttons-container">
+        <button class="btn btn-test" onclick="fillTestData()">🧪 Preencher para Teste</button>
+        <button class="btn btn-pdf" onclick="generatePDF()">📄 Cotação em PDF</button>
+        <button class="btn btn-excel" onclick="generateExcel()">📊 Cotação em Planilha</button>
+        <button class="btn btn-text" onclick="generateText()">📝 Copiar Texto</button>
+        <button class="btn btn-whatsapp" onclick="generateWhatsApp()">💬 WhatsApp</button>
+    </div>
+</div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
-    <script src="https://cdn.sheetjs.com/xlsx-0.20.0/package/dist/xlsx.full.min.js"></script>
-    <script src="script.js"></script>
+<script>
+    // --- helpers e máscaras aprimoradas ---
+    const { jsPDF } = window.jspdf;
+
+    // Vincula CNPJ automático para remetente
+    const senderSelect = document.getElementById('senderName');
+    const senderDocField = document.getElementById('senderDoc');
+    const customSenderInput = document.getElementById('custom_senderName');
+
+    function updateRemetenteDocumento() {
+        const selected = senderSelect.options[senderSelect.selectedIndex];
+        if (senderSelect.value === "Outro") {
+            customSenderInput.classList.remove('hidden');
+            customSenderInput.required = true;
+            senderDocField.value = '';
+            senderDocField.placeholder = "Digite documento";
+        } else {
+            customSenderInput.classList.add('hidden');
+            customSenderInput.required = false;
+            if (selected && selected.dataset.cnpj) {
+                senderDocField.value = selected.dataset.cnpj;
+                senderDocField.placeholder = "CNPJ";
+                document.getElementById('senderDocType').value = "CNPJ";
+            } else {
+                senderDocField.value = '';
+            }
+        }
+    }
+
+    senderSelect.addEventListener('change', updateRemetenteDocumento);
+    updateRemetenteDocumento();
+
+    // Ao digitar razão social customizada, não interferimos no doc manualmente
+    // Mas se quiser, mantém livre.
+
+    // campos dinâmicos dimensões / pallet
+    document.getElementById('dimensions').addEventListener('change', function() {
+        const customDiv = document.getElementById('custom_dimensions');
+        if (this.value === 'Outras dimensões') {
+            customDiv.classList.remove('hidden');
+            customDiv.required = true;
+        } else {
+            customDiv.classList.add('hidden');
+            customDiv.required = false;
+        }
+    });
+    document.getElementById('cargoType').addEventListener('change', function() {
+        const palletQty = document.getElementById('pallet_quantity');
+        if (this.value === 'Paletizada') {
+            palletQty.classList.remove('hidden');
+            palletQty.required = true;
+        } else {
+            palletQty.classList.add('hidden');
+            palletQty.required = false;
+        }
+    });
+
+    // Máscara moeda profissional
+    const valueInput = document.getElementById('value');
+    function formatCurrencyReal(valueField) {
+        let raw = valueField.value.replace(/\D/g, '');
+        if (!raw) {
+            valueField.value = '';
+            return;
+        }
+        let number = (parseInt(raw, 10) / 100).toFixed(2);
+        let formatted = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(number);
+        valueField.value = formatted;
+    }
+    valueInput.addEventListener('input', function(e) {
+        formatCurrencyReal(this);
+    });
+    // máscara documentos geral
+    function formatDocumentWithType(field, docType) {
+        let val = field.value.replace(/\D/g, '');
+        if (docType === 'CPF') {
+            if (val.length > 3) val = val.slice(0,3)+'.'+val.slice(3);
+            if (val.length > 7) val = val.slice(0,7)+'.'+val.slice(7);
+            if (val.length > 11) val = val.slice(0,11)+'-'+val.slice(11,14);
+            field.value = val.slice(0,14);
+        } else {
+            if (val.length > 2) val = val.slice(0,2)+'.'+val.slice(2);
+            if (val.length > 6) val = val.slice(0,6)+'.'+val.slice(6);
+            if (val.length > 10) val = val.slice(0,10)+'/'+val.slice(10);
+            if (val.length > 15) val = val.slice(0,15)+'-'+val.slice(15,18);
+            field.value = val.slice(0,18);
+        }
+    }
+    document.getElementById('senderDoc').addEventListener('input', function() {
+        formatDocumentWithType(this, document.getElementById('senderDocType').value);
+    });
+    document.getElementById('receiverDoc').addEventListener('input', function() {
+        formatDocumentWithType(this, document.getElementById('receiverDocType').value);
+    });
+    document.getElementById('senderDocType').addEventListener('change', function() {
+        let docField = document.getElementById('senderDoc');
+        docField.value = '';
+        docField.placeholder = this.value === 'CPF' ? '000.000.000-00' : '00.000.000/0000-00';
+    });
+    document.getElementById('receiverDocType').addEventListener('change', function() {
+        let docField = document.getElementById('receiverDoc');
+        docField.value = '';
+        docField.placeholder = this.value === 'CPF' ? '000.000.000-00' : '00.000.000/0000-00';
+    });
+    
+    // BUSCA CEP VIA API (ViaCEP)
+    const cepInput = document.getElementById('pickupCep');
+    const pickupAddressField = document.getElementById('pickupAddress');
+    async function buscarEnderecoPorCEP() {
+        let cep = cepInput.value.replace(/\D/g, '');
+        if (cep.length !== 8) {
+            alert("CEP inválido. Digite 8 números.");
+            return;
+        }
+        try {
+            const response = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
+            const data = await response.json();
+            if (data.erro) {
+                alert("CEP não encontrado.");
+                return;
+            }
+            let endereco = `${data.logradouro || ''}, ${data.bairro ? data.bairro : ''} - ${data.localidade}/${data.uf}`;
+            if (!data.logradouro) endereco = `Localidade: ${data.localidade}/${data.uf}`;
+            pickupAddressField.value = `${endereco}`;
+            // permite edição manual depois
+        } catch (err) {
+            alert("Erro ao buscar CEP: " + err.message);
+        }
+    }
+    document.getElementById('searchCepBtn').addEventListener('click', buscarEnderecoPorCEP);
+    
+    // funções de coletar dados completos
+    function getFormData() {
+        let dimensions = document.getElementById('dimensions').value;
+        if (dimensions === "Outras dimensões") dimensions = document.getElementById('custom_dimensions').value;
+        let cargoType = document.getElementById('cargoType').value;
+        let palletQty = (cargoType === "Paletizada") ? document.getElementById('pallet_quantity').value : "";
+        let senderNameRaw = document.getElementById('senderName').value;
+        if (senderNameRaw === "Outro") senderNameRaw = document.getElementById('custom_senderName').value;
+        let valueRaw = document.getElementById('value').value.replace(/[R$\s]/g, '').replace(/\./g, '').replace(',', '.').trim();
+        let numericValue = parseFloat(valueRaw).toLocaleString('pt-BR', {minimumFractionDigits:2, maximumFractionDigits:2});
+        return {
+            requester: document.getElementById('requester').value,
+            freightType: document.getElementById('freightType').value,
+            description: document.getElementById('description').value,
+            quantity: document.getElementById('quantity').value,
+            weight: document.getElementById('weight').value,
+            dimensions: dimensions,
+            value: numericValue,
+            cargoType: cargoType,
+            pallet_quantity: palletQty,
+            senderName: senderNameRaw,
+            senderDocType: document.getElementById('senderDocType').value,
+            senderDoc: document.getElementById('senderDoc').value,
+            pickupAddress: pickupAddressField.value,
+            receiverName: document.getElementById('receiverName').value,
+            receiverDocType: document.getElementById('receiverDocType').value,
+            receiverDoc: document.getElementById('receiverDoc').value,
+            deliveryAddress: document.getElementById('deliveryAddress').value,
+            observations: document.getElementById('observations').value
+        };
+    }
+    
+    function validateForm() {
+        const data = getFormData();
+        const requiredChecks = [
+            { field: data.requester, name: "Solicitante" },
+            { field: data.freightType, name: "Tipo de Frete" },
+            { field: data.description, name: "Descrição da mercadoria" },
+            { field: data.quantity, name: "Quantidade de volumes" },
+            { field: data.weight, name: "Peso bruto total" },
+            { field: data.dimensions, name: "Dimensões" },
+            { field: data.value, name: "Valor da mercadoria" },
+            { field: data.cargoType, name: "Tipo de carga" },
+            { field: data.senderName, name: "Razão Social Remetente (obrigatória)" },
+            { field: data.senderDoc, name: "Documento remetente" },
+            { field: data.pickupAddress, name: "Endereço de coleta" },
+            { field: data.receiverName, name: "Razão Social Destinatário (obrigatório)" },
+            { field: data.receiverDoc, name: "Documento destinatário" },
+            { field: data.deliveryAddress, name: "Endereço de entrega" }
+        ];
+        for(let ch of requiredChecks) {
+            if(!ch.field || ch.field.toString().trim() === "") {
+                alert(`Por favor, preencha o campo: ${ch.name}`);
+                return false;
+            }
+        }
+        if (data.cargoType === "Paletizada" && (!data.pallet_quantity || data.pallet_quantity <= 0)) {
+            alert("Para carga Paletizada, informe a quantidade de paletes.");
+            return false;
+        }
+        let senderDocClean = data.senderDoc.replace(/\D/g, '');
+        let receiverDocClean = data.receiverDoc.replace(/\D/g, '');
+        if (data.senderDocType === "CPF" && senderDocClean.length !== 11) { alert("CPF remetente deve ter 11 dígitos"); return false; }
+        if (data.senderDocType === "CNPJ" && senderDocClean.length !== 14) { alert("CNPJ remetente deve ter 14 dígitos"); return false; }
+        if (data.receiverDocType === "CPF" && receiverDocClean.length !== 11) { alert("CPF destinatário deve ter 11 dígitos"); return false; }
+        if (data.receiverDocType === "CNPJ" && receiverDocClean.length !== 14) { alert("CNPJ destinatário deve ter 14 dígitos"); return false; }
+        return true;
+    }
+
+    // Preencher teste profissional trazendo dados completos
+    function fillTestData() {
+        document.getElementById('requester').value = "Ana Paula Rodrigues (Logística)";
+        document.getElementById('freightType').value = "CIF";
+        document.getElementById('description').value = "Alimentos (não perecíveis)";
+        document.getElementById('quantity').value = "22";
+        document.getElementById('weight').value = "875.30";
+        document.getElementById('dimensions').value = "Caixa M: 26x25x50";
+        document.getElementById('custom_dimensions').classList.add('hidden');
+        valueInput.value = "R$ 5.890,45";
+        document.getElementById('cargoType').value = "Paletizada";
+        document.getElementById('cargoType').dispatchEvent(new Event('change'));
+        document.getElementById('pallet_quantity').value = "6";
+        senderSelect.value = "Florio Alimentos";
+        updateRemetenteDocumento(); // já preenche CNPJ automático
+        pickupAddressField.value = "Rua Alberto Correia Franckfort, 113 - Jd. Vista Alegre - Embú das Artes - SP";
+        document.getElementById('receiverName').value = "Mercado Logística Sul LTDA";
+        document.getElementById('receiverDocType').value = "CNPJ";
+        document.getElementById('receiverDoc').value = "12.345.678/0001-99";
+        document.getElementById('deliveryAddress').value = "Av. das Nações Unidas, 3000 - São Paulo - SP";
+        document.getElementById('observations').value = "Carga paletizada, agendamento necessário 24h antes.";
+        alert("Dados de teste carregados com sucesso!");
+    }
+
+    // exportações
+    function generatePDF() { if (!validateForm()) return; const data = getFormData(); const doc = new jsPDF(); doc.setFont("helvetica", "bold"); doc.setTextColor(26, 54, 93); doc.setFontSize(18); doc.text("COTAÇÃO DE TRANSPORTE - PROPOSTA", 105, 18, { align: "center" }); doc.setFontSize(9); doc.setTextColor(80,80,80); doc.text(`Emitido: ${new Date().toLocaleString()} | Solicitante: ${data.requester}`, 105, 26, { align: "center" }); let y = 40; const fields = [["Frete", data.freightType],["Mercadoria", data.description],["Volumes", data.quantity],["Peso(kg)", data.weight],["Dimensões", data.dimensions],["Valor da Mercadoria", `R$ ${data.value}`],["Tipo Carga", data.cargoType + (data.pallet_quantity ? ` (${data.pallet_quantity} paletes)` : "")],["Remetente", data.senderName],[`${data.senderDocType} Rem.`, data.senderDoc],["Coleta", data.pickupAddress],["Destinatário", data.receiverName],[`${data.receiverDocType} Dest.`, data.receiverDoc],["Entrega", data.deliveryAddress]]; doc.setFont("helvetica","normal"); fields.forEach(([k,v]) => { doc.setFillColor(245,248,250); doc.rect(14, y, 58, 10, "F"); doc.rect(72, y, 125, 10, "F"); doc.text(k, 18, y+7); const lines = doc.splitTextToSize(v || "", 115); doc.text(lines, 76, y+7); y += Math.max(10, lines.length*6); if(y>270){ doc.addPage(); y=20;} }); if(data.observations){ y+=6; doc.setFont("helvetica","bold"); doc.text("Observações:", 14, y); doc.setFont("normal"); const obs = doc.splitTextToSize(data.observations, 180); doc.text(obs, 14, y+6); } doc.save("cotacao_transporte.pdf"); }
+
+    function generateExcel() { if (!validateForm()) return; const data = getFormData(); const sheetData = [["REQUISITO", "INFORMAÇÃO"],["Solicitante", data.requester],["Frete", data.freightType],["Descrição", data.description],["Quantidade", data.quantity],["Peso (kg)", data.weight],["Dimensões", data.dimensions],["Valor", `R$ ${data.value}`],["Carga", data.cargoType+(data.pallet_quantity? ` (${data.pallet_quantity} paletes)`:"")],["Remetente", data.senderName],[`${data.senderDocType} Rem.`, data.senderDoc],["Endereço Coleta", data.pickupAddress],["Destinatário", data.receiverName],[`${data.receiverDocType} Dest.`, data.receiverDoc],["Endereço Entrega", data.deliveryAddress],["Observações", data.observations]]; const wb = XLSX.utils.book_new(); const ws = XLSX.utils.aoa_to_sheet(sheetData); ws["!cols"] = [{wch:28},{wch:58}]; XLSX.utils.book_append_sheet(wb, ws, "Cotação Transporte"); XLSX.writeFile(wb, `cotacao_${Date.now()}.xlsx`); }
+
+    function generateText() { if (!validateForm()) return; const d = getFormData(); let txt = `📦 COTAÇÃO TRANSPORTE\nGerado: ${new Date().toLocaleString()}\nSolicitante: ${d.requester}\n\n▪️ Frete: ${d.freightType}\n▪️ Mercadoria: ${d.description}\n▪️ Volumes: ${d.quantity} | Peso: ${d.weight} kg\n▪️ Dimensões: ${d.dimensions}\n▪️ Valor: R$ ${d.value}\n▪️ Carga: ${d.cargoType}${d.pallet_quantity? ` (${d.pallet_quantity} paletes)` : ""}\n▪️ Remetente: ${d.senderName} (${d.senderDocType}: ${d.senderDoc})\n📍 Coleta: ${d.pickupAddress}\n▪️ Destinatário: ${d.receiverName} (${d.receiverDocType}: ${d.receiverDoc})\n📍 Entrega: ${d.deliveryAddress}\n${d.observations ? `📝 Obs: ${d.observations}` : ""}`; navigator.clipboard.writeText(txt).then(()=>alert("Texto copiado!")).catch(()=>alert("Falha ao copiar")); }
+
+    function generateWhatsApp() { if (!validateForm()) return; const d = getFormData(); let msg = `🚛 *COTAÇÃO DE TRANSPORTE* 🚛\n📅 ${new Date().toLocaleString()}\n👤 Solicitante: ${d.requester}\n\n📦 *Dados da carga*\n▸ Frete: ${d.freightType}\n▸ Produto: ${d.description}\n▸ Volumes: ${d.quantity} | Peso: ${d.weight} kg\n▸ Dimensões: ${d.dimensions}\n▸ Valor: R$ ${d.value}\n▸ Tipo: ${d.cargoType}${d.pallet_quantity?` (${d.pallet_quantity} paletes)`:''}\n\n🏢 *Remetente*: ${d.senderName}\n📄 ${d.senderDocType}: ${d.senderDoc}\n📍 Coleta: ${d.pickupAddress}\n\n🏢 *Destinatário*: ${d.receiverName}\n📄 ${d.receiverDocType}: ${d.receiverDoc}\n📍 Entrega: ${d.deliveryAddress}\n${d.observations ? `\n📌 Obs: ${d.observations}` : ""}\n🔹 Sistema Profissional de Cotação 🔹`; navigator.clipboard.writeText(msg).then(()=>alert("Texto WhatsApp copiado!")); }
+</script>
 </body>
 </html>
